@@ -705,6 +705,31 @@ Use the provided `Makefile` for easy repository management (requires [GitHub CLI
 
 ![Video](images/reconFTW.gif)
 
+
+## Simple GUI
+
+Run a minimal graphical interface with:
+
+```bash
+python3 gui.py
+```
+
+The window allows you to set the target domain, select a scan mode and display
+command output in real time.
+
+## Web GUI
+
+Launch a more comprehensive browser-based interface with:
+
+```bash
+python3 -m pip install Flask
+python3 webgui.py
+```
+
+Then visit [http://localhost:5000](http://localhost:5000) to configure a scan
+using fields for domain, company name, target lists and other options. The
+output is streamed in real time.
+
 ---
 
 ## 🤝 How to Contribute
