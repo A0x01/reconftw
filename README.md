@@ -182,6 +182,7 @@ reconFTW is packed with features to make reconnaissance thorough and efficient. 
 - **Result Zipping**: Compresses and sends results.
 - **Faraday Integration**: Exports results to [Faraday](https://github.com/infobyte/faraday) for reporting .
 - **AI Report Generation**: Generates reports using local AI models ([reconftw_ai](https://github.com/six2dez/reconftw_ai)).
+- **Gemini Reports**: Optionally create reports using Google Gemini.
 - **ARM Support**: Compatible with Raspberry Pi and ARM architectures (including MacOS MX).
 
 ---
@@ -628,6 +629,7 @@ reconFTW uses AI to generate detailed reports from scan results with the tool [r
 - **Model**: Configurable AI model (e.g., `llama3:8b` via `AI_MODEL`).
 - **Report Types**: Markdown or plain text (`AI_REPORT_TYPE`).
 - **Profiles**: Executive, brief, or bug hunter (`AI_REPORT_PROFILE`).
+- **Gemini Integration**: Set `AI_PROVIDER=gemini` and `GEMINI_API_KEY` to generate reports with Google Gemini.
 
 **Example**:
 
@@ -635,6 +637,8 @@ reconFTW uses AI to generate detailed reports from scan results with the tool [r
 AI_MODEL="llama3:8b"
 AI_REPORT_TYPE="md"
 AI_REPORT_PROFILE="bughunter"
+AI_PROVIDER="gemini"
+GEMINI_API_KEY="your_key"
 ```
 
 ---
