@@ -5383,11 +5383,18 @@ function start() {
 
 function end() {
 
-	if [[ $opt_ai ]]; then
-		notification "[$(date +'%Y-%m-%d %H:%M:%S')] Sending ${domain} data to AI" info
-		mkdir -p "${dir}/ai_result" 2>>"${LOGFILE}"
-		"${tools}/reconftw_ai/venv/bin/python3" "${tools}/reconftw_ai/reconftw_ai.py" --results-dir ${dir} --output-dir ${dir}/ai_result --model ${AI_MODEL} --output-format ${AI_REPORT_TYPE} --report-type ${AI_REPORT_PROFILE} --prompts-file ${tools}/reconftw_ai/prompts.json 2>>"${LOGFILE}" >/dev/null
-	fi
+        if [[ $opt_ai ]]; then
+                notification "[$(date +'%Y-%m-%d %H:%M:%S')] Sending ${domain} data to AI" info
+                mkdir -p "${dir}/ai_result" 2>>"${LOGFILE}"
+                if [[ "${AI_PROVIDER}" == "gemini" ]]; then
+                        python3 "${SCRIPTPATH}/gemini_report.py" --results-dir "${dir}" \
+                                --output-file "${dir}/ai_result/report.${AI_REPORT_TYPE}" \
+                                --model "${AI_MODEL}" --output-format "${AI_REPORT_TYPE}" \
+                                --report-type "${AI_REPORT_PROFILE}" 2>>"${LOGFILE}" >/dev/null
+                else
+                        "${tools}/reconftw_ai/venv/bin/python3" "${tools}/reconftw_ai/reconftw_ai.py" --results-dir ${dir} --output-dir ${dir}/ai_result --model ${AI_MODEL} --output-format ${AI_REPORT_TYPE} --report-type ${AI_REPORT_PROFILE} --prompts-file ${tools}/reconftw_ai/prompts.json 2>>"${LOGFILE}" >/dev/null
+                fi
+        fi
 
 	find $dir -type f -empty -print | grep -v '.called_fn' | grep -v '.log' | grep -v '.tmp' | xargs rm -f 2>>"$LOGFILE" >/dev/null
 	find $dir -type d -empty -print -delete 2>>"$LOGFILE" >/dev/null
@@ -6040,7 +6047,7 @@ function help() {
     printf "   -n, --osint       OSINT - Checks for public intel data\n"
     printf "   -z, --zen         Zen - Performs a recon process covering the basics and some vulns\n"
     printf "   -c, --custom      Custom - Launches specific function against target, u need to know the function name first\n"
-    printf "   -y, --ai          AI - Analyzes ReconFTW results using a local LLM\n"
+    printf "   -y, --ai          AI - Analyze results with a local LLM or Gemini API\n"
     printf "   -h                Help - Show help section\n"
     printf " \n"
     printf " ${bblue}GENERAL OPTIONS${reset}\n"
